@@ -1,0 +1,16 @@
+{
+  "name": "nanocolors-template",
+  "version": "0.0.2",
+  "author": "Usman Yunusov <usman.iunusov@gmail.com>",
+  "license": "MIT",
+  "repository": "usmanyunusov/nanocolors-template",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "dependencies": {
+    "nanocolors": "^0.1.12"
+  },
+  "devDependencies": {
+    "jest": "^27.2.1"
+  }
+}

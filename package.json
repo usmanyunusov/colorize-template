@@ -1,6 +1,6 @@
 {
   "name": "nanocolors-template",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tagged template literal for nanocolors",
   "keywords": [
     "colors",
@@ -14,10 +14,15 @@
   "repository": "usmanyunusov/nanocolors-template",
   "type": "module",
   "types": "./index.d.ts",
+  "browser": {
+    "./index.js": "./index.browser.js",
+    "./index.cjs": "./index.browser.cjs"
+  },
   "main": "index.cjs",
   "module": "index.js",
   "exports": {
     ".": {
+      "browser": "./index.browser.js",
       "require": "./index.cjs",
       "import": "./index.js",
       "default": "./index.js"

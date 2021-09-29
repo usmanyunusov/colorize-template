@@ -1,4 +1,4 @@
-import nanocolors from 'nanocolors'
+const nanocolors = require('nanocolors')
 
 const MARKS = Object.keys(nanocolors).toString().replace(/,/g, '|')
 const RE_BLOCK = new RegExp(
@@ -27,4 +27,4 @@ function colorize(strings, ...interpolations) {
   return string
 }
 
-export { colorize }
+module.exports = { colorize }

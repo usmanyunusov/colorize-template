@@ -1,4 +1,4 @@
-const { createColorize } = require('../index.browser.js')
+const { createColorize } = require('../index.js')
 
 function run(pkg = 'picocolors') {
   const nc = require(pkg)
@@ -9,7 +9,9 @@ function run(pkg = 'picocolors') {
   })
 
   it('custom color', () => {
-    expect(colorize`Yep! {warn Warning} text`).toBe(`Yep! Warning text`)
+    expect(colorize`Yep! {warn Warning} text`).toBe(
+      `Yep! ${nc.yellow('Warning')} text`
+    )
   })
 
   it('empty libs', () => {
@@ -28,7 +30,11 @@ function run(pkg = 'picocolors') {
   it('correctly perform template parsing', () => {
     expect(
       colorize`{bold Hello, {cyan World!} This is a} test. {green Woo!}`
-    ).toBe('Hello, World! This is a test. Woo!')
+    ).toBe(
+      nc.bold('Hello, ' + nc.cyan('World!') + ' This is a') +
+        ' test. ' +
+        nc.green('Woo!')
+    )
   })
 
   it('correctly perform template substitutions', () => {
@@ -37,7 +43,11 @@ function run(pkg = 'picocolors') {
 
     expect(
       colorize`{bold Hello, {cyan.inverse ${name}!} This is a} test. {green ${exclamation}!}`
-    ).toBe(`Hello, ${name}! This is a test. ${exclamation}!`)
+    ).toBe(
+      nc.bold('Hello, ' + nc.cyan(nc.inverse(name + '!')) + ' This is a') +
+        ' test. ' +
+        nc.green(exclamation + '!')
+    )
   })
 
   it('throw if there is an invalid style', () => {
@@ -47,12 +57,12 @@ function run(pkg = 'picocolors') {
   })
 
   it('escape interpolated values', () => {
-    expect(colorize`Hello {bold hi}`).toBe('Hello hi')
-    expect(colorize`Hello ${'{bold hi}'}`).toBe('Hello hi')
+    expect(colorize`Hello {bold hi}`).toBe('Hello ' + nc.bold('hi'))
+    expect(colorize`Hello ${'{bold hi}'}`).toBe('Hello ' + nc.bold('hi'))
   })
 
   it('correctly parse newline literals', () => {
-    expect(colorize`Hello {red there}`).toBe('Hello there')
+    expect(colorize`Hello {red there}`).toBe('Hello ' + nc.red('there'))
   })
 
   it('correctly parse newline escapes', () => {
@@ -61,13 +71,15 @@ function run(pkg = 'picocolors') {
 
   it('correctly parse escape in parameters', () => {
     const string = '\\'
-    expect(colorize`{red ${string}}`).toBe('\\')
+    expect(colorize`{red ${string}}`).toBe(nc.red('\\'))
   })
 
   it('correctly parses unicode/hex escapes', () => {
     expect(
       colorize`\u0078ylophones are fo\x78y! {magenta.inverse \u0078ylophones are fo\x78y!}`
-    ).toBe('xylophones are foxy! xylophones are foxy!')
+    ).toBe(
+      'xylophones are foxy! ' + nc.magenta(nc.inverse('xylophones are foxy!'))
+    )
   })
 
   it('should not parse upper-case escapes', () => {
@@ -84,10 +96,10 @@ function run(pkg = 'picocolors') {
   it('should allow bracketed Unicode escapes', () => {
     expect(colorize`\u{AB}`).toBe('\u{AB}')
     expect(colorize`This is a {bold \u{AB681}} test`).toBe(
-      'This is a \u{AB681} test'
+      'This is a \u001B[1m\u{AB681}\u001B[22m test'
     )
     expect(colorize`This is a {bold \u{10FFFF}} test`).toBe(
-      'This is a \u{10FFFF} test'
+      'This is a \u001B[1m\u{10FFFF}\u001B[22m test'
     )
   })
 }

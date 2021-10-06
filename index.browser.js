@@ -1,50 +1,33 @@
-const MARKS = [
-  'reset',
-  'bold',
-  'dim',
-  'italic',
-  'underline',
-  'inverse',
-  'hidden',
-  'strikethrough',
-  'black',
-  'red',
-  'green',
-  'yellow',
-  'blue',
-  'magenta',
-  'cyan',
-  'white',
-  'gray',
-  'bgBlack',
-  'bgRed',
-  'bgGreen',
-  'bgYellow',
-  'bgBlue',
-  'bgMagenta',
-  'bgCyan',
-  'bgWhite'
-]
-  .toString()
-  .replace(/,/g, '|')
-
-const RE_BLOCK = new RegExp(
-  `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*)\\s([^}]*[^{]*)\\}`,
-  'gi'
-)
-
-function colorize(strings, ...interpolations) {
-  let string = strings.reduce(
-    (a, s, i) => (a += String(interpolations[i - 1]) + s)
+function createColorize(colors = {}) {
+  let MARKS = Object.keys(colors).toString().replace(/,/g, '|')
+  let RE_BLOCK = new RegExp(
+    `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*?)\\s|(\\})|(.|[\r\n\f])`,
+    'gi'
   )
 
-  while (RE_BLOCK.test(string)) {
-    string = string.replace(RE_BLOCK, (_, marks, content) => {
-      return content
-    })
-  }
+  return (input, ...args) => {
+    let str = input.reduce((a, s, i) => (a += args[--i] + s))
+    let stack = [{ raw: '' }]
 
-  return string
+    str.replace(RE_BLOCK, (block, open, close, other = '') => {
+      if (open) {
+        stack.push({ marks: open.split('.').reverse(), raw: '' })
+      }
+
+      if (close) {
+        other = close
+
+        if (stack.length !== 1) {
+          let { raw } = stack.pop()
+          other = raw
+        }
+      }
+
+      stack[stack.length - 1].raw += other
+    })
+
+    return stack[0].raw
+  }
 }
 
-export { colorize }
+module.exports = { createColorize }

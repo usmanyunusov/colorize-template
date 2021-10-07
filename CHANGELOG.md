@@ -1,6 +1,11 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.0
+* Replace project name `nanocolors-template` to `colorize-template`
+* Replace `jest` to `node assert`
+* New API
+
 ## 0.1.1
 * Added browser support
 

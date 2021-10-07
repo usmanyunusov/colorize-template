@@ -24,18 +24,13 @@
   },
   "sideEffects": false,
   "scripts": {
-    "test": "jest --coverage",
+    "test": "node tests/index.js && node tests/browser.js",
     "lint": "prettier --write '*.{js,ts}'"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@types/jest": "^27.0.2",
     "clean-publish": "^2.2.0",
-    "jest": "^27.2.1",
     "picocolors": "^0.2.1",
-    "prettier": "^2.4.1",
-    "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3"
+    "prettier": "^2.4.1"
   },
   "jest": {
     "testEnvironment": "node",

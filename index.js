@@ -1,21 +1,26 @@
 function createColorize(colors = {}) {
   let MARKS = Object.keys(colors).toString().replace(/,/g, '|')
   let RE_BLOCK = new RegExp(
-    `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*?)\\s|(\\})|(.|[\r\n\f])`,
+    `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*?)\\s|(\\})|(.[^{}]*)`,
     'gi'
   )
 
   return (input, ...args) => {
-    let str = input.reduce((a, s, i) => (a += args[--i] + s))
+    input = input.reduce((a, s, i) => (a += args[--i] + s))
     let stack = [{ raw: '' }]
 
-    str.replace(RE_BLOCK, (block, open, close, other = '') => {
+    input.replace(RE_BLOCK, (block, open, close, other = '', pos) => {
       if (open) {
-        stack.push({ marks: open.split('.').reverse(), raw: '' })
+        other = block
+
+        if (input.indexOf('}', pos) + 1) {
+          stack.push({ marks: open.split('.').reverse(), raw: '' })
+          return
+        }
       }
 
       if (close) {
-        other = close
+        other = block
 
         if (stack.length !== 1) {
           let { marks, raw } = stack.pop()

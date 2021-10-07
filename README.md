@@ -2,7 +2,11 @@
 
 Tagged template literal for ANSI colors.
 
-> You need to provides an object which includes a variety of text coloring and formatting functions. You can use ready-made projects: `Picocolors`, `Colorette`, `Kleur`, `Colors.js`, `Chalk`
+- **No dependencies.**
+- Node.js v6+ & browsers support. Support both CJS and ESM projects.
+- TypeScript type declarations included.
+
+> You need to provides an object which includes a variety of text coloring and formatting functions. You can use ready-made projects: [Picocolors](https://github.com/alexeyraspopov/picocolors), [Colorette](https://github.com/jorgebucaran/colorette), [Kleur](https://github.com/lukeed/kleur), [Colors.js](https://github.com/Marak/colors.js), [Chalk](https://github.com/chalk/chalk)
 
 ```js
 import { createColorize } from 'colorize-template'
@@ -15,13 +19,11 @@ let colorize = createColorize({
   error: colorette.red
 })
 
-colorize`Is red {red color} text`
-colorize`Run {yellow.bgRed ${'yellow'} test}`
-colorize`Is red {error error and {success green text}}`
+console.log(
+  colorize`Is red {red color} text`,
+  colorize`Run {yellow.bgRed ${'yellow'} test}`,
+  colorize`Is red {error error and success {success green text}}`,
+)
 ```
-
-- No dependencies.
-- Node.js v6+ & browsers support. Support both CJS and ESM projects.
-- TypeScript type declarations included.
 
 > Blocks are delimited by an opening curly brace `{`, a style, some content, and a closing curly brace `}`.

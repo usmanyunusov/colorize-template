@@ -16,7 +16,7 @@
   ],
   "author": "Usman Yunusov <usman.iunusov@gmail.com>",
   "license": "MIT",
-  "repository": "usmanyunusov/nanocolors-template",
+  "repository": "usmanyunusov/colorize-template",
   "main": "index.js",
   "types": "./index.d.ts",
   "browser": {
@@ -25,7 +25,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest --coverage",
-    "lint": "prettier --write '*.{js,ts,cjs,}'"
+    "lint": "prettier --write '*.{js,ts}'"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",

@@ -80,6 +80,10 @@ test('correctly parse newline escapes', () => {
   assert.equal(colorize`Hello\nthere!`, 'Hello\nthere!')
 })
 
+test('correctly parse newline escapes after template', () => {
+  assert.equal(colorize`Hello {red there}\nafter`, 'Hello ' + pc.red('there') + '\nafter')
+})
+
 test('correctly parse escape in parameters', () => {
   const string = '\\'
   assert.equal(colorize`{red ${string}}`, pc.red('\\'))

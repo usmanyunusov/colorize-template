@@ -1,7 +1,7 @@
 function createColorize(colors = {}) {
   let MARKS = Object.keys(colors).toString().replace(/,/g, '|')
   let RE_BLOCK = new RegExp(
-    `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*?)\\s|(\\})|(.[^{}]*)`,
+    `\\{((?:${MARKS})(?:\\.(?:${MARKS}))*?)\\s|(\\})|([\\s\\S][^{}]*)`,
     'gi'
   )
 

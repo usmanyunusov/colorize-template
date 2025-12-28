@@ -78,6 +78,10 @@ test('correctly parse escape in parameters', () => {
   assert.equal(colorize`{red ${string}}`, '\\')
 })
 
+test('correctly parse newline escapes after template', () => {
+  assert.equal(colorize`Hello {red there}\nafter`, 'Hello there\nafter')
+})
+
 test('correctly parses unicode/hex escapes', () => {
   assert.equal(
     colorize`\u0078ylophones are fo\x78y! {magenta.inverse \u0078ylophones are fo\x78y!}`,
